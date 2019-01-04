@@ -116,40 +116,111 @@ public class Level {
         map[x][y] = mapElement;
     }
 
+    //movement controls and tests
     public void moveUp() {
-        Tile tile = new Tile();
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
-        warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() - 1);
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
-        System.out.println(warehouseKeeper.keeperCoords.getY());
-        System.out.println(getMap());
+        if (map[warehouseKeeper.keeperCoords.getX()][warehouseKeeper.keeperCoords.getY() - 1] instanceof Wall) {
+            //dont move
+        } else {
+            moveUpCrateCheck();
+//            if (map[warehouseKeeper.keeperCoords.getX()][warehouseKeeper.keeperCoords.getY() - 1] instanceof Diamond) {
+//                Diamond diamond = new Diamond();
+//                setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), diamond);
+//            } else {
+            Tile tile = new Tile();
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
+//            }
+            warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() - 1);
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+            System.out.println(warehouseKeeper.keeperCoords.getY());
+            System.out.println(getMap());
+        }
     }
 
     public void moveRight() {
-        Tile tile = new Tile();
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
-        warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() + 1);
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
-        System.out.println(warehouseKeeper.keeperCoords.getY());
-        System.out.println(getMap());
+        if (map[warehouseKeeper.keeperCoords.getX() + 1][warehouseKeeper.keeperCoords.getY()] instanceof Wall) {
+            //dont move
+        } else {
+            moveRightCrateCheck();
+            Tile tile = new Tile();
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
+            warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() + 1);
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+            System.out.println(warehouseKeeper.keeperCoords.getY());
+            System.out.println(getMap());
+        }
     }
 
     public void moveDown() {
-        Tile tile = new Tile();
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
-        warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() + 1);
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
-        System.out.println(warehouseKeeper.keeperCoords.getY());
-        System.out.println(getMap());
+        if (map[warehouseKeeper.keeperCoords.getX()][warehouseKeeper.keeperCoords.getY() + 1] instanceof Wall) {
+            //dont move
+        } else {
+            moveDownCrateCheck();
+            Tile tile = new Tile();
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
+            warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() + 1);
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+            System.out.println(warehouseKeeper.keeperCoords.getY());
+            System.out.println(getMap());
+        }
     }
 
     public void moveLeft() {
-        Tile tile = new Tile();
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
-        warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() - 1);
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
-        System.out.println(warehouseKeeper.keeperCoords.getY());
-        System.out.println(getMap());
+        if (map[warehouseKeeper.keeperCoords.getX() - 1][warehouseKeeper.keeperCoords.getY()] instanceof Wall) {
+            //dont move
+        } else {
+            moveLeftCrateCheck();
+            Tile tile = new Tile();
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
+            warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() - 1);
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+            System.out.println(warehouseKeeper.keeperCoords.getY());
+            System.out.println(getMap());
+        }
+    }
+
+    // checks for crates
+    public void moveUpCrateCheck() {
+        if (map[warehouseKeeper.keeperCoords.getX()][warehouseKeeper.keeperCoords.getY() - 1] instanceof Crate) {
+            //move crate
+            Crate crate = new Crate();
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY() - 2, crate);
+            System.out.println(getMap());
+
+        } else {
+        }
+    }
+
+    public void moveDownCrateCheck() {
+        if (map[warehouseKeeper.keeperCoords.getX()][warehouseKeeper.keeperCoords.getY() + 1] instanceof Crate) {
+            //move crate
+            Crate crate = new Crate();
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY() + 2, crate);
+            System.out.println(getMap());
+
+        } else {
+        }
+    }
+
+    public void moveRightCrateCheck() {
+        if (map[warehouseKeeper.keeperCoords.getX() + 1][warehouseKeeper.keeperCoords.getY()] instanceof Crate) {
+            //move crate
+            Crate crate = new Crate();
+            setMapElement(warehouseKeeper.keeperCoords.getX() + 2, warehouseKeeper.keeperCoords.getY(), crate);
+            System.out.println(getMap());
+
+        } else {
+        }
+    }
+
+    public void moveLeftCrateCheck() {
+        if (map[warehouseKeeper.keeperCoords.getX() - 1][warehouseKeeper.keeperCoords.getY()] instanceof Crate) {
+            //move crate
+            Crate crate = new Crate();
+            setMapElement(warehouseKeeper.keeperCoords.getX() + 2, warehouseKeeper.keeperCoords.getY(), crate);
+            System.out.println(getMap());
+
+        } else {
+        }
     }
 
 }
