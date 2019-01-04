@@ -82,21 +82,27 @@ public class SokobanGame extends Application {
 
     @FXML
     private void upButton() throws IOException {
-        newLevel.moveup();
+        newLevel.moveUp();
         setImage(newLevel.getMap());
 
     }
 
     @FXML
     private void downButton() throws IOException {
+        newLevel.moveDown();
+        setImage(newLevel.getMap());
     }
 
     @FXML
     private void leftButton() throws IOException {
+        newLevel.moveLeft();
+        setImage(newLevel.getMap());
     }
 
     @FXML
     private void rightButton() throws IOException {
+        newLevel.moveRight();
+        setImage(newLevel.getMap());
     }
 
     public void setImage(MapElement[][] map) {

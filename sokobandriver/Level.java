@@ -50,7 +50,7 @@ public class Level {
                         case '@':
                             //warehouseKeeper
                             warehouseKeeper.createElement(x, y);
-                            setMapElement(x, y, warehouseKeeper);
+                            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
                             break;
                         case '*':
                             //crate
@@ -116,10 +116,38 @@ public class Level {
         map[x][y] = mapElement;
     }
 
-    public void moveup() {
+    public void moveUp() {
         Tile tile = new Tile();
         setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
-        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY() - 1, warehouseKeeper);
+        warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() - 1);
+        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+        System.out.println(warehouseKeeper.keeperCoords.getY());
+        System.out.println(getMap());
+    }
+
+    public void moveRight() {
+        Tile tile = new Tile();
+        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
+        warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() + 1);
+        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+        System.out.println(warehouseKeeper.keeperCoords.getY());
+        System.out.println(getMap());
+    }
+
+    public void moveDown() {
+        Tile tile = new Tile();
+        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
+        warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() + 1);
+        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+        System.out.println(warehouseKeeper.keeperCoords.getY());
+        System.out.println(getMap());
+    }
+
+    public void moveLeft() {
+        Tile tile = new Tile();
+        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
+        warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() - 1);
+        setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
         System.out.println(warehouseKeeper.keeperCoords.getY());
         System.out.println(getMap());
     }
