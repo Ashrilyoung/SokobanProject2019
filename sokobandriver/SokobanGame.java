@@ -19,11 +19,11 @@ import javafx.stage.Stage;
  */
 public class SokobanGame extends Application {
 
-    Level newLevel = new Level();
+    Level newLevel = new Level();   //initialise level vlass
 
     //load in FXML File
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {  //load the javafx document
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -39,6 +39,9 @@ public class SokobanGame extends Application {
 
     }
 
+    
+    //create buttons from fxml
+    
     @FXML
     private Button startButton;
 
@@ -69,20 +72,24 @@ public class SokobanGame extends Application {
 
     }
 
+    //button implementations
+    
     @FXML
     private void startButton() throws IOException {
-        newLevel.Level();
-        setImage(newLevel.getMap());
+        newLevel.Level();                             
+        setImage(newLevel.getMap());            //set images as the object in each part of the map 2d array
     }
 
     @FXML
     private void exitButton() {
-        System.exit(0);
+        System.exit(0);        //exit the program
     }
 
+    //movement buttons
+    
     @FXML
     private void upButton() throws IOException {
-        newLevel.moveUp();
+        newLevel.moveUp();                      
         setImage(newLevel.getMap());
 
     }

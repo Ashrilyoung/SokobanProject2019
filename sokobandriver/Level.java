@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,7 +16,7 @@ public class Level {
     private int numberOfMoves = 0;
     private MapElement[][] map = new MapElement[25][15];
     WarehouseKeeper warehouseKeeper = new WarehouseKeeper();
-    private Crate crate[];
+    private MapElement[][] diamondList = new MapElement[25][15];
     Coordinate coords = new Coordinate();
 
     //this will load the level
@@ -63,6 +64,7 @@ public class Level {
                             Diamond diamond = new Diamond();
                             diamond.createElement(x, y);
                             setMapElement(x, y, diamond);
+                            setDiamondListElement(x, y, diamond);
                             break;
                         case 'X':
                             //wall
@@ -88,6 +90,7 @@ public class Level {
 
                 }
                 inputLine = inputBuffer.readLine();	// try to read a line
+
             }
         } catch (FileNotFoundException fnfe) {	// even though we know the file exists Java still needs to catch the potential error
             fnfe.printStackTrace();
@@ -116,6 +119,12 @@ public class Level {
         map[x][y] = mapElement;
     }
 
+    public void setDiamondListElement(int x, int y, MapElement mapElement) {
+        diamondList[x][y] = mapElement;
+        System.out.println(diamondList);
+
+    }
+
     //movement controls and tests
     public void moveUp() {
         moveCrateCheck(0, -1);
@@ -142,6 +151,8 @@ public class Level {
             warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() + moveX);
             warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() + moveY);
             setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
+            diamondcheck();
+            winCheck();
         }
     }
 
@@ -161,4 +172,38 @@ public class Level {
             characterMove(moveX, moveY);
         }
     }
+
+    public void diamondcheck() {           //checks to see if a diamond should be inhabiting floor space instead of a tile
+        for (int x = 0; x < 25; x++) {
+            for (int y = 0; y < 15; y++) {
+                if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Tile) {
+                    Diamond diamond = new Diamond();
+                    setMapElement(x, y, diamond);
+                }
+            }
+        }
+    }
+
+    public void winCheck() {              //checks whether all the crates are on the diamonds
+        int NoOfCratesOnDiamonds = 0;
+        int noOfDiamonds = 0;
+        for (int x = 0; x < 25; x++) {
+            for (int y = 0; y < 15; y++) {
+                if (diamondList[x][y] instanceof Diamond) {
+                    noOfDiamonds++;
+                }
+            }
+        }
+        for (int x = 0; x < 25; x++) {
+            for (int y = 0; y < 15; y++) {
+                if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Crate) {
+                    NoOfCratesOnDiamonds++;
+                    if (NoOfCratesOnDiamonds == noOfDiamonds) {
+                        System.out.println("Congradulations You Win!");
+                    }
+                }
+            }
+        }
+    }
+
 }
