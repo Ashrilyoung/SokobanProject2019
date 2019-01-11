@@ -6,7 +6,7 @@ package sokobandriver;
  */
 public class Crate extends MoveableMapElement {
 
-    private String filename = "resources/SokobanImages/Crate.png";
+    private String filename = "resources/SokobanImages/Crate.png";  //file location for crate 
 
     //creates the element
     public void createElement(int x, int y) {
@@ -15,6 +15,7 @@ public class Crate extends MoveableMapElement {
         crateCoords.setY(y);
     }
 
+    //returns the file name so it can be used
     public String getFileName() {
         return filename;
     }

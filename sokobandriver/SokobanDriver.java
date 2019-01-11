@@ -15,7 +15,7 @@ public class SokobanDriver {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Application.launch(SokobanGame.class, args);
+        Application.launch(SokobanGame.class, args);  //;aunch the program and fxml file
     }
 
 }

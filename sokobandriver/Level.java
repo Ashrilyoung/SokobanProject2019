@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  *
@@ -14,15 +13,16 @@ import java.util.ArrayList;
 public class Level {
 
     private int numberOfMoves = 0;
-    private MapElement[][] map = new MapElement[25][15];
-    WarehouseKeeper warehouseKeeper = new WarehouseKeeper();
-    private MapElement[][] diamondList = new MapElement[25][15];
-    Coordinate coords = new Coordinate();
+    private MapElement[][] map = new MapElement[23][13];
+    private WarehouseKeeper warehouseKeeper = new WarehouseKeeper();
+    private MapElement[][] diamondList = new MapElement[23][13];
+    private Coordinate coords = new Coordinate();
+    private int levelNo = 1;
 
     //this will load the level
     public void Level() {
 
-        File textFile = new File("src/resources/SokobanMaps/level1.txt");	// we pass the filename as a parameter to the constructor
+        File textFile = new File("src/resources/SokobanMaps/level" + levelNo + ".txt");	// we pass the filename as a parameter to the constructor
 
         // tests if the file exists on the file system
         if (textFile.exists()) {
@@ -121,7 +121,7 @@ public class Level {
 
     public void setDiamondListElement(int x, int y, MapElement mapElement) {
         diamondList[x][y] = mapElement;
-        System.out.println(diamondList);
+//        System.out.println(diamondList);
 
     }
 
@@ -142,8 +142,10 @@ public class Level {
         moveCrateCheck(-1, 0);
     }
 
+    //class to handle player movement 
     public void characterMove(int moveX, int moveY) {
         if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Wall) {
+            //instanceof was found here https://stackoverflow.com/questions/10531513/how-to-identify-object-types-in-java
             //dont move
         } else {
             Tile tile = new Tile();
@@ -156,7 +158,7 @@ public class Level {
         }
     }
 
-    // checks for crates
+    // class to check for crates
     public void moveCrateCheck(int moveX, int moveY) {
         if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Crate
                 && map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2] instanceof Wall
@@ -173,9 +175,10 @@ public class Level {
         }
     }
 
-    public void diamondcheck() {           //checks to see if a diamond should be inhabiting floor space instead of a tile
-        for (int x = 0; x < 25; x++) {
-            for (int y = 0; y < 15; y++) {
+    //checks to see if a diamond should be inhabiting floor space instead of a tile
+    public void diamondcheck() {
+        for (int x = 0; x < 23; x++) {
+            for (int y = 0; y < 13; y++) {
                 if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Tile) {
                     Diamond diamond = new Diamond();
                     setMapElement(x, y, diamond);
@@ -184,26 +187,51 @@ public class Level {
         }
     }
 
-    public void winCheck() {              //checks whether all the crates are on the diamonds
+    //checks whether all the crates are on the diamonds
+    public void winCheck() {
         int NoOfCratesOnDiamonds = 0;
         int noOfDiamonds = 0;
-        for (int x = 0; x < 25; x++) {
-            for (int y = 0; y < 15; y++) {
+        for (int x = 0; x < 23; x++) {
+            for (int y = 0; y < 13; y++) {
                 if (diamondList[x][y] instanceof Diamond) {
                     noOfDiamonds++;
                 }
             }
         }
-        for (int x = 0; x < 25; x++) {
-            for (int y = 0; y < 15; y++) {
+        for (int x = 0; x < 23; x++) {
+            for (int y = 0; y < 13; y++) {
                 if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Crate) {
                     NoOfCratesOnDiamonds++;
                     if (NoOfCratesOnDiamonds == noOfDiamonds) {
                         System.out.println("Congradulations You Win!");
+                        clearMap();
+                        setLevelNo();
+                        Level();
                     }
                 }
             }
         }
     }
 
+    
+    //increase the level number
+    public void setLevelNo() {
+        if (levelNo < 5) {
+            levelNo++;
+        } else {
+            System.out.println("This is the Last Level!");
+        }
+    }
+
+    
+    //clear the map array
+    public void clearMap() {
+        for (int x = 0; x < 23; x++) {
+            for (int y = 0; y < 13; y++) {
+                setMapElement(x, y, null);
+                setDiamondListElement(x, y, null);
+            }
+        }
+
+    }
 }

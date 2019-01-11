@@ -27,8 +27,8 @@ public class SokobanGame extends Application {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            String viewerFxml = "sokobanMenu.fxml";
-            VBox page = (VBox) fxmlLoader.load(this.getClass().getResource(viewerFxml).openStream());
+            String viewerFxml = "sokobanMenu.fxml";        //the fxml document to load
+            VBox page = (VBox) fxmlLoader.load(this.getClass().getResource(viewerFxml).openStream());   
             Scene scene = new Scene(page);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -39,9 +39,7 @@ public class SokobanGame extends Application {
 
     }
 
-    
-    //create buttons from fxml
-    
+    //create buttons from fxml document
     @FXML
     private Button startButton;
 
@@ -61,6 +59,11 @@ public class SokobanGame extends Application {
     private Button rightButton;
 
     @FXML
+    private Button NextLevelButton;
+
+    
+    //create grid to hold images for game
+    @FXML
     private GridPane gameGrid;
 
     public void SokobanGame() {
@@ -73,10 +76,18 @@ public class SokobanGame extends Application {
     }
 
     //button implementations
-    
     @FXML
     private void startButton() throws IOException {
-        newLevel.Level();                             
+        newLevel.Level();                           //run the level class
+        setImage(newLevel.getMap());            //set images as the object in each part of the map 2d array
+    }
+
+    @FXML
+    private void NextLevelButton() throws IOException {
+        gameGrid.getChildren().clear();                 //clear the gridpane
+        newLevel.clearMap();                          //clear the map 2d array
+        newLevel.setLevelNo();                       //change the level no by +1
+        newLevel.Level();                           //run the level class with the new level number
         setImage(newLevel.getMap());            //set images as the object in each part of the map 2d array
     }
 
@@ -86,39 +97,45 @@ public class SokobanGame extends Application {
     }
 
     //movement buttons
-    
     @FXML
     private void upButton() throws IOException {
-        newLevel.moveUp();                      
+        gameGrid.getChildren().clear();
+        newLevel.moveUp();
         setImage(newLevel.getMap());
 
     }
 
     @FXML
     private void downButton() throws IOException {
+        gameGrid.getChildren().clear();
         newLevel.moveDown();
         setImage(newLevel.getMap());
     }
 
     @FXML
     private void leftButton() throws IOException {
+        gameGrid.getChildren().clear();
         newLevel.moveLeft();
         setImage(newLevel.getMap());
     }
 
     @FXML
     private void rightButton() throws IOException {
+        gameGrid.getChildren().clear();
         newLevel.moveRight();
         setImage(newLevel.getMap());
     }
-
+    
+    
+ //Class to find and set images to the game panel
+    
     public void setImage(MapElement[][] map) {
         int y = 0;
         int x = 0;
-        while (map[x][y] != null) {
+        while (map[x][y] != null) {           //make sure the map array is not empty
             if (map[x][y] != null) {
-                Image imageno = new Image(map[x][y].getFileName(), 32, 32, false, false);
-                gameGrid.add(new ImageView(imageno), x, y);
+                Image imageno = new Image(map[x][y].getFileName(), 32, 32, false, false);      //find the image based on the object type
+                gameGrid.add(new ImageView(imageno), x, y);                             //add the image to the pane
             }
             x++;
             if (map[x][y] == null) {

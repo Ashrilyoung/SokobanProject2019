@@ -4,6 +4,8 @@ package sokobandriver;
  *
  * @author 16007873
  */
+
+//class to set coordinates for the warehousekeeper
 public class Coordinate {
 
     private int x = 0;
