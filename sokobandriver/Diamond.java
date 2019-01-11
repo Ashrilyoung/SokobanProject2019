@@ -11,21 +11,21 @@ public class Diamond extends MapElement {
     private String filename = "resources/SokobanImages/Diamond.png";
 
     //thios creates the diamond element
-    public void createElement(int x, int y) {
-        Coordinate diamondCoords = new Coordinate();
-        diamondCoords.setX(x);
-        diamondCoords.setY(y);
-    }
+//    public void createElement(int x, int y) {
+//        Coordinate diamondCoords = new Coordinate();
+//        diamondCoords.setX(x);
+//        diamondCoords.setY(y);
+//    }
 
     //this will check whether or not the diamond has a crate
-    public void setHasCrate() {
-
-    }
-
-    //this gets whether or not the diamond has a crate
-    public boolean getHasCrate() {
-        return hasCrate;
-    }
+//    public void setHasCrate() {
+//
+//    }
+//
+//    //this gets whether or not the diamond has a crate
+//    public boolean getHasCrate() {
+//        return hasCrate;
+//    }
 
     public String getFileName() {
         return filename;

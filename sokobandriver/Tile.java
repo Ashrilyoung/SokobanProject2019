@@ -8,10 +8,6 @@ public class Tile extends MapElement {
 
     private String filename = "resources/SokobanImages/Floor.png";
 
-    public void createElement() {
-
-    }
-
     public String getFileName() {
         return filename;
     }

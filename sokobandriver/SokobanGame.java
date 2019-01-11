@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  */
 public class SokobanGame extends Application {
 
-    Level newLevel = new Level();   //initialise level vlass
+    Level newLevel = new Level();   //initialise level class
 
     //load in FXML File
     @Override
@@ -97,11 +97,12 @@ public class SokobanGame extends Application {
     }
 
     //movement buttons
+    
     @FXML
     private void upButton() throws IOException {
-        gameGrid.getChildren().clear();
-        newLevel.moveUp();
-        setImage(newLevel.getMap());
+        gameGrid.getChildren().clear();                     //clears the old images from the screen
+        newLevel.moveUp();                                  //moves the warehousekeeper
+        setImage(newLevel.getMap());                        //sets the images based on the new postisions of the objects in the mp array
 
     }
 
@@ -130,18 +131,20 @@ public class SokobanGame extends Application {
  //Class to find and set images to the game panel
     
     public void setImage(MapElement[][] map) {
-        int y = 0;
-        int x = 0;
-        while (map[x][y] != null) {           //make sure the map array is not empty
-            if (map[x][y] != null) {
-                Image imageno = new Image(map[x][y].getFileName(), 32, 32, false, false);      //find the image based on the object type
-                gameGrid.add(new ImageView(imageno), x, y);                             //add the image to the pane
+        int yCoord = 0;
+        int xCoord = 0;
+        while (map[xCoord][yCoord] != null) {           //make sure the map array is not empty
+            if (map[xCoord][yCoord] != null) {
+                Image imageno = new Image(map[xCoord][yCoord].getFileName(), 32, 32, false, false);      //find the image based on the object type
+                gameGrid.add(new ImageView(imageno), xCoord, yCoord);                             //add the image to the pane
+                
             }
-            x++;
-            if (map[x][y] == null) {
-                y++;
-                x = 0;
+            xCoord++;
+            if (map[xCoord][yCoord] == null) {
+                yCoord++;
+                xCoord = 0;
             }
+            
         }
     }
 
