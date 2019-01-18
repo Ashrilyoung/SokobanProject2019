@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -28,7 +29,7 @@ public class SokobanGame extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             String viewerFxml = "sokobanMenu.fxml";        //the fxml document to load
-            VBox page = (VBox) fxmlLoader.load(this.getClass().getResource(viewerFxml).openStream());   
+            VBox page = (VBox) fxmlLoader.load(this.getClass().getResource(viewerFxml).openStream());
             Scene scene = new Scene(page);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -40,6 +41,9 @@ public class SokobanGame extends Application {
     }
 
     //create buttons from fxml document
+    @FXML
+    private Text NumberOfMovesText;
+
     @FXML
     private Button startButton;
 
@@ -61,7 +65,6 @@ public class SokobanGame extends Application {
     @FXML
     private Button NextLevelButton;
 
-    
     //create grid to hold images for game
     @FXML
     private GridPane gameGrid;
@@ -97,12 +100,12 @@ public class SokobanGame extends Application {
     }
 
     //movement buttons
-    
     @FXML
     private void upButton() throws IOException {
         gameGrid.getChildren().clear();                     //clears the old images from the screen
         newLevel.moveUp();                                  //moves the warehousekeeper
         setImage(newLevel.getMap());                        //sets the images based on the new postisions of the objects in the mp array
+        setMovesText();  //counts the number of moves by the user
 
     }
 
@@ -111,6 +114,7 @@ public class SokobanGame extends Application {
         gameGrid.getChildren().clear();
         newLevel.moveDown();
         setImage(newLevel.getMap());
+        setMovesText();
     }
 
     @FXML
@@ -118,6 +122,7 @@ public class SokobanGame extends Application {
         gameGrid.getChildren().clear();
         newLevel.moveLeft();
         setImage(newLevel.getMap());
+        setMovesText();
     }
 
     @FXML
@@ -125,26 +130,30 @@ public class SokobanGame extends Application {
         gameGrid.getChildren().clear();
         newLevel.moveRight();
         setImage(newLevel.getMap());
+        setMovesText();
     }
-    
-    
- //Class to find and set images to the game panel
-    
+
+    public void setMovesText() {
+        NumberOfMovesText.setText("Moves " + newLevel.getNumberOfMoves());   //displays the charactersmovement number oon screen
+    }
+
+    //Class to find and set images to the game panel
     public void setImage(MapElement[][] map) {
         int yCoord = 0;
         int xCoord = 0;
+        NumberOfMovesText.setText(""); //clears the text so that it resets properly when a level is restarted or new level loaded
         while (map[xCoord][yCoord] != null) {           //make sure the map array is not empty
             if (map[xCoord][yCoord] != null) {
                 Image imageno = new Image(map[xCoord][yCoord].getFileName(), 32, 32, false, false);      //find the image based on the object type
                 gameGrid.add(new ImageView(imageno), xCoord, yCoord);                             //add the image to the pane
-                
+
             }
             xCoord++;
             if (map[xCoord][yCoord] == null) {
                 yCoord++;
                 xCoord = 0;
             }
-            
+
         }
     }
 

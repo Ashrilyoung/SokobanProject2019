@@ -12,11 +12,11 @@ import java.io.IOException;
  */
 public class Level {
 
-    private int numberOfMoves = 0;                          //counts number of moves
     private MapElement[][] map = new MapElement[23][14];             //stores map information
     private WarehouseKeeper warehouseKeeper = new WarehouseKeeper();    //creates warehousekeeper object
     private MapElement[][] diamondList = new MapElement[23][14];       //stores location of diamonds
     private int levelNo = 1;        //level number to start on
+    private int numberOfMoves = 0;                          //counts number of moves
 
     //this will load the level
     public void Level() {
@@ -37,6 +37,7 @@ public class Level {
 
         try {
 
+            resetMoveNo();                      //sets the character move number back to 0
             reader = new FileReader(textFile);
             inputBuffer = new BufferedReader(reader);
             String inputLine = inputBuffer.readLine();
@@ -72,7 +73,7 @@ public class Level {
                         case ' ':
                             //tile
                             Tile tile = new Tile();
-                            tile.createElement();
+//                            tile.createElement();
                             setMapElement(x, y, tile);
                             break;
                         default:
@@ -224,6 +225,10 @@ public class Level {
     public void setMoveNo() {
         numberOfMoves++;
 //        System.out.println(numberOfMoves);
+    }
+
+    public void resetMoveNo() {
+        numberOfMoves = 0;
     }
 
     //clear the map array

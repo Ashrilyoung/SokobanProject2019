@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="624.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sokobandriver.SokobanGame">
   <children>
@@ -60,6 +61,7 @@
             <Button fx:id="leftButton" layoutX="240.0" layoutY="573.0" mnemonicParsing="false" onAction="#leftButton" prefHeight="42.0" prefWidth="83.0" text="Left" />
             <Button fx:id="downButton" layoutX="323.0" layoutY="573.0" mnemonicParsing="false" onAction="#downButton" prefHeight="42.0" prefWidth="83.0" text="Down" />
             <Button fx:id="NextLevelButton" layoutX="306.0" layoutY="14.0" mnemonicParsing="false" onAction="#NextLevelButton" prefHeight="42.0" prefWidth="118.0" text="Next Level" />
+            <Text fx:id="NumberOfMovesText" layoutX="306.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="118.00000027567148" />
          </children>
     </AnchorPane>
   </children>
