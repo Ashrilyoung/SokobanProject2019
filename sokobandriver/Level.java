@@ -146,12 +146,13 @@ public class Level {
             //dont move
         } else {
             Tile tile = new Tile();  //create a new tile object
-            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);    
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), tile);
             warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() + moveX);                        //set the warehousekeepers new coordinates
             warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() + moveY);
-            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);  
+            setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
             diamondcheck();       //check if any diamonds need to be added back to the level
             winCheck();           //check if all the crates are on the diamonds
+            setMoveNo();
         }
     }
 
@@ -161,15 +162,15 @@ public class Level {
         if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Crate
                 && map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2] instanceof Wall
                 || map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Crate
-                && map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2] instanceof Crate) {       
+                && map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2] instanceof Crate) {
             //dont move
         } else if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Crate) {
             //move crate
             Crate crate = new Crate();
-            setMapElement(warehouseKeeper.keeperCoords.getX() + moveX * 2, warehouseKeeper.keeperCoords.getY() + moveY * 2, crate);  
-            characterMove(moveX, moveY);       //call the methodto move the warehousekeeper
+            setMapElement(warehouseKeeper.keeperCoords.getX() + moveX * 2, warehouseKeeper.keeperCoords.getY() + moveY * 2, crate);
+            characterMove(moveX, moveY);       //call the method to move the warehousekeeper
         } else {
-            characterMove(moveX, moveY);         
+            characterMove(moveX, moveY);
         }
     }
 
@@ -177,7 +178,7 @@ public class Level {
     public void diamondcheck() {
         for (int x = 0; x < 23; x++) {
             for (int y = 0; y < 14; y++) {
-                if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Tile) {     
+                if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Tile) {
                     Diamond diamond = new Diamond();
                     setMapElement(x, y, diamond);
                 }
@@ -201,7 +202,7 @@ public class Level {
                 if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Crate) {
                     NoOfCratesOnDiamonds++;
                     if (NoOfCratesOnDiamonds == noOfDiamonds) {
-                        System.out.println("Congradulations You Win!");      //message forplayer
+                        System.out.println("Congradulations You Win!");      //message for player
                         clearMap();                                           //clear the map[][] array
                         setLevelNo();                       //go to the next level
                         Level();                            //remake the map[][] array with the new map
@@ -211,7 +212,6 @@ public class Level {
         }
     }
 
-    
     //increase the level number
     public void setLevelNo() {
         if (levelNo < 5) {
@@ -221,7 +221,11 @@ public class Level {
         }
     }
 
-    
+    public void setMoveNo() {
+        numberOfMoves++;
+//        System.out.println(numberOfMoves);
+    }
+
     //clear the map array
     public void clearMap() {
         for (int x = 0; x < 23; x++) {
