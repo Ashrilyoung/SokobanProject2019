@@ -8,10 +8,7 @@ public abstract class MapElement {
 
     private String filename;
     
-    public void createElement() {
-    }
-    
-    public String getFileName(){
+    public String getFileName(){   //get the name of the objects file
         return filename;
     }
 }

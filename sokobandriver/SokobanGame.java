@@ -144,7 +144,7 @@ public class SokobanGame extends Application {
         NumberOfMovesText.setText(""); //clears the text so that it resets properly when a level is restarted or new level loaded
         while (map[xCoord][yCoord] != null) {           //make sure the map array is not empty
             if (map[xCoord][yCoord] != null) {
-                Image imageno = new Image(map[xCoord][yCoord].getFileName(), 32, 32, false, false);      //find the image based on the object type
+                Image imageno = new Image(map[xCoord][yCoord].getFileName(), 32, 32, false, false);      //find the image based on the object type, Example of polymorphism
                 gameGrid.add(new ImageView(imageno), xCoord, yCoord);                             //add the image to the pane
 
             }
