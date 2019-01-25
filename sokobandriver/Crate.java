@@ -10,14 +10,6 @@ public class Crate extends MapElement {
 
     private String filename = "resources/SokobanImages/Crate.png";  //file location for crate 
 
-//    creates the element
-//    public void createElement(int x, int y) {
-//        Coordinate crateCoords = new Coordinate();
-//        crateCoords.setX(x);
-//        crateCoords.setY(y);
-//    }
-
-
     /**
      *
      * @return

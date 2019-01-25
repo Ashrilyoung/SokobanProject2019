@@ -14,8 +14,9 @@ public class Level {
 
     private MapElement[][] map = new MapElement[23][14];             //stores map information
     WarehouseKeeper warehouseKeeper = new WarehouseKeeper();    //creates warehousekeeper object
-    private MapElement[][] diamondList = new MapElement[23][14];       //stores location of diamonds
+    Diamond storageDiamond = new Diamond();                //creates a diamond Object
     private int levelNo = 1;        //level number to start on
+    private String errorText;    //String to hold text for error messages
 
     /**
      * this will load the level
@@ -63,7 +64,7 @@ public class Level {
                             //diamond
                             Diamond diamond = new Diamond();
                             setMapElement(x, y, diamond);
-                            setDiamondListElement(x, y, diamond);
+                            storageDiamond.setDiamondListElement(x, y, diamond);
                             break;
                         case 'X':
                             //wall
@@ -96,7 +97,6 @@ public class Level {
         }
 
     }
-
 
     /**
      *
@@ -131,56 +131,10 @@ public class Level {
 
     /**
      *
-     * @param x
-     * @param y
-     * @param mapElement sets a space in the diamondList[][] array to a certain
-     * object which is passed in
-     */
-    public void setDiamondListElement(int x, int y, MapElement mapElement) {
-        diamondList[x][y] = mapElement;
-
-    }
-
-    /**
-     *
-     * function to move the character up by passing numbers to move my into the
-     * movement class
-     */
-    public void moveUp() {
-        moveCrateCheck(0, -1);
-    }
-
-    /**
-     * function to move the character right by passing numbers to move my into
-     * the movement class
-     */
-    public void moveRight() {
-        moveCrateCheck(1, 0);
-    }
-
-    /**
-     * function to move the character down by passing numbers to move my into
-     * the movement class
-     */
-    public void moveDown() {
-        moveCrateCheck(0, 1);
-    }
-
-    /**
-     * function to move the character left by passing numbers to move my into
-     * the movement class
-     */
-    public void moveLeft() {
-        moveCrateCheck(-1, 0);
-    }
-
-    
-    /**
-     *
      * @param moveX
      * @param moveY
-     * 
-     * class to handle player movement 
+     *
+     * class to handle player movement
      */
     public void characterMove(int moveX, int moveY) {
         if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Wall) {  //check if are player wants to move to is a wall
@@ -192,9 +146,9 @@ public class Level {
             warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() + moveX);                        //set the warehousekeepers new coordinates
             warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() + moveY);
             setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
-            diamondcheck();      
-            winCheck();         
-            warehouseKeeper.increaseMoveNo();    
+            diamondcheck();
+            winCheck();
+            warehouseKeeper.increaseMoveNo();
         }
     }
 
@@ -207,7 +161,11 @@ public class Level {
     public void moveCrateCheck(int moveX, int moveY) {
 
         MapElement elementAtCharacterDestination = map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY];
-        MapElement elementAfterCharacterDestination = map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2];
+        MapElement elementAfterCharacterDestination = map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY];
+        
+        if (1 < (warehouseKeeper.keeperCoords.getX() + moveX * 2) && 1 < warehouseKeeper.keeperCoords.getY() + moveY * 2){
+            elementAfterCharacterDestination = map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2];
+        }
 
         boolean objectaAtCharacterDestinationIsCrate = elementAtCharacterDestination instanceof Crate;
         boolean objectaAfterCharacterDestinationIsCrate = elementAfterCharacterDestination instanceof Crate;
@@ -215,7 +173,6 @@ public class Level {
 
         if (objectaAtCharacterDestinationIsCrate && objectaAfterCharacterDestinationIsWall
                 || objectaAtCharacterDestinationIsCrate && objectaAfterCharacterDestinationIsCrate) {
-        
             //dont move
         } else if (objectaAtCharacterDestinationIsCrate) {
             //move crate
@@ -234,7 +191,7 @@ public class Level {
     public void diamondcheck() {
         for (int x = 0; x < 23; x++) {
             for (int y = 0; y < 14; y++) {
-                if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Tile) {
+                if (storageDiamond.diamondList[x][y] instanceof Diamond && map[x][y] instanceof Tile) {
                     Diamond diamond = new Diamond();
                     setMapElement(x, y, diamond);
                 }
@@ -250,14 +207,14 @@ public class Level {
         int noOfDiamonds = 0;
         for (int x = 0; x < 23; x++) {
             for (int y = 0; y < 14; y++) {
-                if (diamondList[x][y] instanceof Diamond) {
+                if (storageDiamond.diamondList[x][y] instanceof Diamond) {
                     noOfDiamonds++;
                 }
             }
         }
         for (int x = 0; x < 23; x++) {
             for (int y = 0; y < 14; y++) {
-                if (diamondList[x][y] instanceof Diamond && map[x][y] instanceof Crate) {
+                if (storageDiamond.diamondList[x][y] instanceof Diamond && map[x][y] instanceof Crate) {
                     NoOfCratesOnDiamonds++;
                     if (NoOfCratesOnDiamonds == noOfDiamonds) {
                         System.out.println("Congradulations You Win!");      //message for player
@@ -278,10 +235,9 @@ public class Level {
             levelNo++;
         } else {
             System.out.println("This is the Last Level!");
-            
+            setErrorText("This is the Last Level!");
         }
     }
-
 
     /**
      * clear the map array
@@ -290,9 +246,24 @@ public class Level {
         for (int x = 0; x < 23; x++) {
             for (int y = 0; y < 14; y++) {
                 setMapElement(x, y, null);               //make every object in the array null
-                setDiamondListElement(x, y, null);
+                storageDiamond.setDiamondListElement(x, y, null);
             }
         }
+    }
 
+    /**
+     *
+     * @param newErrorText
+     */
+    public void setErrorText(String newErrorText) {
+        errorText = newErrorText;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getErrorText() {
+        return errorText;
     }
 }

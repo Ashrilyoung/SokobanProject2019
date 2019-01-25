@@ -62,6 +62,7 @@
             <Button fx:id="downButton" layoutX="323.0" layoutY="573.0" mnemonicParsing="false" onAction="#downButton" prefHeight="42.0" prefWidth="83.0" text="Down" />
             <Button fx:id="NextLevelButton" layoutX="306.0" layoutY="14.0" mnemonicParsing="false" onAction="#NextLevelButton" prefHeight="42.0" prefWidth="118.0" text="Next Level" />
             <Text fx:id="NumberOfMovesText" layoutX="306.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="118.00000027567148" />
+            <Text fx:id="ErrorText" layoutX="22.0" layoutY="598.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="207.00000027567148" />
          </children>
     </AnchorPane>
   </children>

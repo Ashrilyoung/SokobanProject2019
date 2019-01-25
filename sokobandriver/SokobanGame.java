@@ -50,6 +50,9 @@ public class SokobanGame extends Application {
     private Text NumberOfMovesText;
 
     @FXML
+    private Text ErrorText;
+
+    @FXML
     private Button startButton;
 
     @FXML
@@ -99,6 +102,7 @@ public class SokobanGame extends Application {
         newLevel.increaseLevelNo();                       //change the level no by +1
         newLevel.Level();                           //run the level class with the new level number
         setImage(newLevel.getMap());            //set images as the object in each part of the map 2d array
+        setErrorText();
     }
 
     /**
@@ -119,7 +123,7 @@ public class SokobanGame extends Application {
     @FXML
     private void upButton() throws IOException {
         gameGrid.getChildren().clear();                     //clears the old images from the screen
-        newLevel.moveUp();                                  //moves the warehousekeeper
+        moveUp();                                  //moves the warehousekeeper
         setImage(newLevel.getMap());                        //sets the images based on the new postisions of the objects in the mp array
         setMovesText();  //counts the number of moves by the user
 
@@ -132,7 +136,7 @@ public class SokobanGame extends Application {
     @FXML
     private void downButton() throws IOException {
         gameGrid.getChildren().clear();
-        newLevel.moveDown();
+        moveDown();
         setImage(newLevel.getMap());
         setMovesText();
     }
@@ -146,7 +150,7 @@ public class SokobanGame extends Application {
     @FXML
     private void leftButton() throws IOException {
         gameGrid.getChildren().clear();
-        newLevel.moveLeft();
+        moveLeft();
         setImage(newLevel.getMap());
         setMovesText();
     }
@@ -160,7 +164,7 @@ public class SokobanGame extends Application {
     @FXML
     private void rightButton() throws IOException {
         gameGrid.getChildren().clear();
-        newLevel.moveRight();
+        moveRight();
         setImage(newLevel.getMap());
         setMovesText();
     }
@@ -175,8 +179,15 @@ public class SokobanGame extends Application {
 
     /**
      *
-     * @param map 
-     * Class to find and set images to the game panel
+     * sets the text for any error messages to displayed to the user
+     */
+    public void setErrorText() {
+        ErrorText.setText(newLevel.getErrorText());   //displays error text on screen
+    }
+
+    /**
+     *
+     * @param map Class to find and set images to the game panel
      */
     public void setImage(MapElement[][] map) {
         int yCoord = 0;
@@ -195,6 +206,35 @@ public class SokobanGame extends Application {
             }
 
         }
+    }
+
+    /**
+     *
+     * Function to move the character up
+     */
+    public void moveUp() {
+        newLevel.moveCrateCheck(0, -1);
+    }
+
+    /**
+     * Function to move the character right
+     */
+    public void moveRight() {
+        newLevel.moveCrateCheck(1, 0);
+    }
+
+    /**
+     * Function to move the character down
+     */
+    public void moveDown() {
+        newLevel.moveCrateCheck(0, 1);
+    }
+
+    /**
+     * Function to move the character left
+     */
+    public void moveLeft() {
+        newLevel.moveCrateCheck(-1, 0);
     }
 
 }
