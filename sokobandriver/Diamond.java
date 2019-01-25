@@ -3,31 +3,20 @@ package sokobandriver;
 /**
  *
  * @author 16007873
+ *
+ * class to create diamond elements
  */
 public class Diamond extends MapElement {
 
-    boolean hasCrate = false;
-
     private String filename = "resources/SokobanImages/Diamond.png";
 
-    //thios creates the diamond element
-//    public void createElement(int x, int y) {
-//        Coordinate diamondCoords = new Coordinate();
-//        diamondCoords.setX(x);
-//        diamondCoords.setY(y);
-//    }
-
-    //this will check whether or not the diamond has a crate
-//    public void setHasCrate() {
-//
-//    }
-//
-//    //this gets whether or not the diamond has a crate
-//    public boolean getHasCrate() {
-//        return hasCrate;
-//    }
-
+    /**
+     *
+     * @return returns the file path for the object so it can be used in another
+     * class
+     */
     public String getFileName() {
         return filename;
     }
+
 }

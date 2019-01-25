@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 /**
  *
  * @author 16007873
+ *
+ * This class handles the on screen elements and interactive elements such as
+ * buttons which control the game
  */
 public class SokobanGame extends Application {
 
@@ -40,7 +43,9 @@ public class SokobanGame extends Application {
 
     }
 
-    //create buttons from fxml document
+    /**
+     * create buttons from fxml document
+     */
     @FXML
     private Text NumberOfMovesText;
 
@@ -65,41 +70,52 @@ public class SokobanGame extends Application {
     @FXML
     private Button NextLevelButton;
 
-    //create grid to hold images for game
+    /**
+     * create grid to hold images for game
+     */
     @FXML
     private GridPane gameGrid;
 
-    public void SokobanGame() {
-
-    }
-
-    //function to set the game level number.
-    public void SetLevel(int LevelNumber) {
-
-    }
-
-    //button implementations
+    /**
+     *
+     * @throws IOException method to handle start button. initialises the map
+     */
     @FXML
     private void startButton() throws IOException {
         newLevel.Level();                           //run the level class
         setImage(newLevel.getMap());            //set images as the object in each part of the map 2d array
     }
 
+    /**
+     *
+     * @throws IOException
+     *
+     * method to move map to the next level
+     */
     @FXML
     private void NextLevelButton() throws IOException {
         gameGrid.getChildren().clear();                 //clear the gridpane
         newLevel.clearMap();                          //clear the map 2d array
-        newLevel.setLevelNo();                       //change the level no by +1
+        newLevel.increaseLevelNo();                       //change the level no by +1
         newLevel.Level();                           //run the level class with the new level number
         setImage(newLevel.getMap());            //set images as the object in each part of the map 2d array
     }
 
+    /**
+     *
+     * method to exit the game
+     */
     @FXML
     private void exitButton() {
         System.exit(0);        //exit the program
     }
 
-    //movement buttons
+    /**
+     *
+     * @throws IOException
+     *
+     * method to move the character up
+     */
     @FXML
     private void upButton() throws IOException {
         gameGrid.getChildren().clear();                     //clears the old images from the screen
@@ -109,6 +125,10 @@ public class SokobanGame extends Application {
 
     }
 
+    /**
+     *
+     * @throws IOException method to move the character down
+     */
     @FXML
     private void downButton() throws IOException {
         gameGrid.getChildren().clear();
@@ -117,6 +137,12 @@ public class SokobanGame extends Application {
         setMovesText();
     }
 
+    /**
+     *
+     * @throws IOException
+     *
+     * method to move the character left
+     */
     @FXML
     private void leftButton() throws IOException {
         gameGrid.getChildren().clear();
@@ -125,6 +151,12 @@ public class SokobanGame extends Application {
         setMovesText();
     }
 
+    /**
+     *
+     * @throws IOException
+     *
+     * Moves the character right
+     */
     @FXML
     private void rightButton() throws IOException {
         gameGrid.getChildren().clear();
@@ -133,11 +165,19 @@ public class SokobanGame extends Application {
         setMovesText();
     }
 
+    /**
+     *
+     * sets the text for number of character moves
+     */
     public void setMovesText() {
-        NumberOfMovesText.setText("Moves " + newLevel.getNumberOfMoves());   //displays the charactersmovement number oon screen
+        NumberOfMovesText.setText("Moves " + newLevel.warehouseKeeper.getNumberOfMoves());   //displays the characters movement number on screen
     }
 
-    //Class to find and set images to the game panel
+    /**
+     *
+     * @param map 
+     * Class to find and set images to the game panel
+     */
     public void setImage(MapElement[][] map) {
         int yCoord = 0;
         int xCoord = 0;

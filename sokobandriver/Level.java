@@ -8,17 +8,18 @@ import java.io.IOException;
 
 /**
  *
- * @author 16007873
+ * @author 16007873 class to generate levels and handle character movement
  */
 public class Level {
 
     private MapElement[][] map = new MapElement[23][14];             //stores map information
-    private WarehouseKeeper warehouseKeeper = new WarehouseKeeper();    //creates warehousekeeper object
+    WarehouseKeeper warehouseKeeper = new WarehouseKeeper();    //creates warehousekeeper object
     private MapElement[][] diamondList = new MapElement[23][14];       //stores location of diamonds
     private int levelNo = 1;        //level number to start on
-    private int numberOfMoves = 0;                          //counts number of moves
 
-    //this will load the level
+    /**
+     * this will load the level
+     */
     public void Level() {
 
         File textFile = new File("src/resources/SokobanMaps/level" + levelNo + ".txt");	// we pass the filename as a parameter to the constructor
@@ -37,7 +38,7 @@ public class Level {
 
         try {
 
-            resetMoveNo();                      //sets the character move number back to 0
+            warehouseKeeper.resetMoveNo();                      //sets the character move number back to 0
             reader = new FileReader(textFile);
             inputBuffer = new BufferedReader(reader);
             String inputLine = inputBuffer.readLine();
@@ -56,7 +57,6 @@ public class Level {
                         case '*':
                             //crate
                             Crate crate = new Crate();             //create a new crate object
-//                            crate.createElement(x, y);
                             setMapElement(x, y, crate);             //add the crate to the map[][] array
                             break;
                         case '.':
@@ -73,7 +73,6 @@ public class Level {
                         case ' ':
                             //tile
                             Tile tile = new Tile();
-//                            tile.createElement();
                             setMapElement(x, y, tile);
                             break;
                         default:
@@ -98,49 +97,91 @@ public class Level {
 
     }
 
-    //gets the number of moves
-    public int getNumberOfMoves() {
-        return numberOfMoves;
-    }
 
-    //checks whether the level is complete
+    /**
+     *
+     * @return checks whether or not all the level is complete
+     */
     public boolean checkLevelComplete() {
         boolean levelComplete = false;
         return levelComplete;
     }
 
+    /**
+     *
+     * @return returns the map[][] array allowing it to be read from another
+     * class
+     *
+     */
     public MapElement[][] getMap() {
         return map;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param mapElement
+     *
+     * sets a space in the map[][] array to a certain object which is passed in
+     */
     public void setMapElement(int x, int y, MapElement mapElement) {
         map[x][y] = mapElement;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param mapElement sets a space in the diamondList[][] array to a certain
+     * object which is passed in
+     */
     public void setDiamondListElement(int x, int y, MapElement mapElement) {
         diamondList[x][y] = mapElement;
-//        System.out.println(diamondList);
 
     }
 
-    //movement controls and tests
+    /**
+     *
+     * function to move the character up by passing numbers to move my into the
+     * movement class
+     */
     public void moveUp() {
         moveCrateCheck(0, -1);
     }
 
+    /**
+     * function to move the character right by passing numbers to move my into
+     * the movement class
+     */
     public void moveRight() {
         moveCrateCheck(1, 0);
     }
 
+    /**
+     * function to move the character down by passing numbers to move my into
+     * the movement class
+     */
     public void moveDown() {
         moveCrateCheck(0, 1);
     }
 
+    /**
+     * function to move the character left by passing numbers to move my into
+     * the movement class
+     */
     public void moveLeft() {
         moveCrateCheck(-1, 0);
     }
 
-    //class to handle player movement 
+    
+    /**
+     *
+     * @param moveX
+     * @param moveY
+     * 
+     * class to handle player movement 
+     */
     public void characterMove(int moveX, int moveY) {
         if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Wall) {  //check if are player wants to move to is a wall
             //instanceof was found here https://stackoverflow.com/questions/10531513/how-to-identify-object-types-in-java
@@ -151,21 +192,32 @@ public class Level {
             warehouseKeeper.keeperCoords.setX(warehouseKeeper.keeperCoords.getX() + moveX);                        //set the warehousekeepers new coordinates
             warehouseKeeper.keeperCoords.setY(warehouseKeeper.keeperCoords.getY() + moveY);
             setMapElement(warehouseKeeper.keeperCoords.getX(), warehouseKeeper.keeperCoords.getY(), warehouseKeeper);
-            diamondcheck();       //check if any diamonds need to be added back to the level
-            winCheck();           //check if all the crates are on the diamonds
-            setMoveNo();
+            diamondcheck();      
+            winCheck();         
+            warehouseKeeper.increaseMoveNo();    
         }
     }
 
-    // class to check for crates
+    /**
+     *
+     * @param moveX
+     * @param moveY class to check for crates check if the both the objects in
+     * front of the player are crates or a crate and wall
+     */
     public void moveCrateCheck(int moveX, int moveY) {
-        //check if the bothe the objects in front of the player are crates or a crate and wall
-        if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Crate
-                && map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2] instanceof Wall
-                || map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Crate
-                && map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2] instanceof Crate) {
+
+        MapElement elementAtCharacterDestination = map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY];
+        MapElement elementAfterCharacterDestination = map[warehouseKeeper.keeperCoords.getX() + moveX * 2][warehouseKeeper.keeperCoords.getY() + moveY * 2];
+
+        boolean objectaAtCharacterDestinationIsCrate = elementAtCharacterDestination instanceof Crate;
+        boolean objectaAfterCharacterDestinationIsCrate = elementAfterCharacterDestination instanceof Crate;
+        boolean objectaAfterCharacterDestinationIsWall = elementAfterCharacterDestination instanceof Wall;
+
+        if (objectaAtCharacterDestinationIsCrate && objectaAfterCharacterDestinationIsWall
+                || objectaAtCharacterDestinationIsCrate && objectaAfterCharacterDestinationIsCrate) {
+        
             //dont move
-        } else if (map[warehouseKeeper.keeperCoords.getX() + moveX][warehouseKeeper.keeperCoords.getY() + moveY] instanceof Crate) {
+        } else if (objectaAtCharacterDestinationIsCrate) {
             //move crate
             Crate crate = new Crate();
             setMapElement(warehouseKeeper.keeperCoords.getX() + moveX * 2, warehouseKeeper.keeperCoords.getY() + moveY * 2, crate);
@@ -175,7 +227,10 @@ public class Level {
         }
     }
 
-    //checks to see if a diamond should be inhabiting floor space instead of a tile
+    /**
+     * checks to see if a diamond should be inhabiting floor space instead of a
+     * tile
+     */
     public void diamondcheck() {
         for (int x = 0; x < 23; x++) {
             for (int y = 0; y < 14; y++) {
@@ -187,7 +242,9 @@ public class Level {
         }
     }
 
-    //checks whether all the crates are on the diamonds
+    /**
+     * checks whether all the crates are on the diamonds
+     */
     public void winCheck() {
         int NoOfCratesOnDiamonds = 0;
         int noOfDiamonds = 0;
@@ -205,7 +262,7 @@ public class Level {
                     if (NoOfCratesOnDiamonds == noOfDiamonds) {
                         System.out.println("Congradulations You Win!");      //message for player
                         clearMap();                                           //clear the map[][] array
-                        setLevelNo();                       //go to the next level
+                        increaseLevelNo();                       //go to the next level
                         Level();                            //remake the map[][] array with the new map
                     }
                 }
@@ -213,25 +270,22 @@ public class Level {
         }
     }
 
-    //increase the level number
-    public void setLevelNo() {
+    /**
+     * increase the level number
+     */
+    public void increaseLevelNo() {
         if (levelNo < 5) {
             levelNo++;
         } else {
             System.out.println("This is the Last Level!");
+            
         }
     }
 
-    public void setMoveNo() {
-        numberOfMoves++;
-//        System.out.println(numberOfMoves);
-    }
 
-    public void resetMoveNo() {
-        numberOfMoves = 0;
-    }
-
-    //clear the map array
+    /**
+     * clear the map array
+     */
     public void clearMap() {
         for (int x = 0; x < 23; x++) {
             for (int y = 0; y < 14; y++) {
